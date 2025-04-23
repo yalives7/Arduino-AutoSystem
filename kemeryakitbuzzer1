@@ -1,0 +1,118 @@
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C lcd(0x3F, 16, 2); // 0x27 olabilir
+
+// Pin tanımları
+const int motorButtonPin = 2;
+const int seatBeltButtonPin = 3;
+const int redLedPin = 5;
+const int buzzerPin = 10;
+const int potPin = A2;
+const int fuelLedPin = 7; // Sarı LED için çıkış
+
+bool motorDurumu = false;
+bool oncekiButon = LOW;
+
+void lcd_hazirla(){
+  lcd.init();
+  lcd.backlight();
+  lcd.setCursor(0, 0);
+  lcd.print("Sistem Hazirlaniyor");
+  delay(1500);
+  lcd.clear();
+}
+
+void pin_hazirla(){
+  pinMode(motorButtonPin, INPUT);
+  pinMode(seatBeltButtonPin, INPUT);
+  pinMode(redLedPin, OUTPUT);
+  pinMode(buzzerPin, OUTPUT);
+  pinMode(fuelLedPin, OUTPUT);
+  pinMode(13, OUTPUT); // Motor LED
+}
+
+void setup() {
+ // analogReference(DEFAULT); // AREF için dahili 5V referansı kullanılır ✅
+
+  pin_hazirla();
+  lcd_hazirla();
+}
+
+void loop() {
+  int motorButton = digitalRead(motorButtonPin);
+  int seatBelt = digitalRead(seatBeltButtonPin);
+  int potDeger = analogRead(potPin);
+  int yakitYuzde = map(potDeger, 0, 1023, 0, 100);
+digitalWrite(fuelLedPin, HIGH);  // Sarı LED'i yak
+
+  // Yakıt seviyesi sıfırsa motor çalışamaz
+  if (yakitYuzde == 0) {
+    motorDurumu = false;
+    digitalWrite(13, LOW); // Motor durdu
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Yakit Bitti");
+    lcd.setCursor(0, 1);
+    lcd.print("Motor Durdu");
+    digitalWrite(fuelLedPin, LOW);
+    digitalWrite(redLedPin, LOW);
+    digitalWrite(buzzerPin, LOW);
+    delay(500);
+    return;
+  }
+
+  // Emniyet kemeri takılı değilse
+  if (seatBelt == LOW) {
+    digitalWrite(redLedPin, HIGH);
+    digitalWrite(buzzerPin, HIGH);
+    lcd.setCursor(0, 0);
+    lcd.print("Kemer Takili Degil");
+    lcd.setCursor(0, 1);
+    lcd.print("Motor Calismaz   ");
+    motorDurumu = false;
+  } else {
+    // Emniyet kemeri takiliysa
+    digitalWrite(redLedPin, LOW);
+    digitalWrite(buzzerPin, HIGH);
+    digitalWrite(buzzerPin, LOW);
+
+    if (motorButton == HIGH && oncekiButon == LOW) {
+      motorDurumu = !motorDurumu;
+      lcd.clear();
+      if (motorDurumu) {
+        lcd.setCursor(0, 0);
+        lcd.print("Motor Calisiyor");
+      } else {
+        lcd.setCursor(0, 0);
+        lcd.print("Motor Durdu");
+      }
+      delay(200);
+    }
+  }
+
+  oncekiButon = motorButton;
+  digitalWrite(13, motorDurumu); // Motor LED kontrolü
+
+  // Yakıt Seviyesi LCD'de göster
+  lcd.setCursor(0, 1);
+  lcd.print("Yakit: ");
+  lcd.print(yakitYuzde);
+  lcd.print("%   ");
+
+  // Yakıt seviyesi uyarıları
+  if (yakitYuzde <= 5) {
+    lcd.setCursor(0, 0);
+    lcd.print("Kritik: Yakit Az");
+    digitalWrite(fuelLedPin, millis() / 300 % 2); // Yanıp sönsün
+  }
+  else if (yakitYuzde <= 10) {
+    lcd.setCursor(0, 0);
+    lcd.print("Uyari: Yakit Az ");
+    digitalWrite(fuelLedPin, HIGH);
+  } else {
+    digitalWrite(fuelLedPin, LOW);
+  }
+
+  delay(300);
+}
