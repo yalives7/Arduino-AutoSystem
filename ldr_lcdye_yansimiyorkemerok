@@ -1,0 +1,187 @@
+// su naki kodda emniyet kemeri ve kapı dogru calisiyor 
+// lcd he cok hızlı hem de farlar acik yamzıyor 
+
+
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C lcd(0x3F, 16, 2);
+
+// Pin tanımları
+const int motorButtonPin = 19;        // PD2/RXD1/INT2
+const int seatBeltButtonPin = 18;     // PD3/TXD1/INT3
+const int redLedPin = 5;              // PE3
+const int buzzerPin = 10;
+const int potPin = A2;
+const int fuelLedPin = 7;
+const int motorLedPin = 13;
+const int dcMotorPin = 2;             // PE4
+const int tempPin = A0;
+const int fanMotorPin = 9;
+const int doorSwitchPin = 6;           // PH3
+const int rgbRedPin = 4;               // PG5
+const int rgbBluePin = 3;              // PE5
+const int ldrPin = A1;                 // PF1
+const int farLedPin = A14;             // PK6
+
+bool motorDurumu = false;
+bool farDurumu = false;
+bool oncekiFarDurumu = false;
+unsigned long lcdTimer = 0;
+unsigned long lcdShowTime = 3000;
+String lcdSatir1 = "";
+String lcdSatir2 = "";
+
+void lcd_hazirla() {
+  lcd.init();
+  lcd.backlight();
+  lcd.clear();
+}
+
+void pin_hazirla() {
+  pinMode(motorButtonPin, INPUT_PULLUP);
+  pinMode(seatBeltButtonPin, INPUT_PULLUP);
+  pinMode(redLedPin, OUTPUT);
+  pinMode(buzzerPin, OUTPUT);
+  pinMode(fuelLedPin, OUTPUT);
+  pinMode(motorLedPin, OUTPUT);
+  pinMode(dcMotorPin, OUTPUT);
+  pinMode(fanMotorPin, OUTPUT);
+  pinMode(doorSwitchPin, INPUT_PULLUP);
+  pinMode(rgbRedPin, OUTPUT);
+  pinMode(rgbBluePin, OUTPUT);
+  pinMode(farLedPin, OUTPUT);
+}
+
+void guncelleLCD(String satir1, String satir2, unsigned long sure = 3000) {
+  if (satir1 != lcdSatir1 || satir2 != lcdSatir2) {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print(satir1);
+    lcd.setCursor(0, 1);
+    lcd.print(satir2);
+    lcdSatir1 = satir1;
+    lcdSatir2 = satir2;
+    lcdTimer = millis();
+    lcdShowTime = sure;
+  }
+}
+
+void setup() {
+  pin_hazirla();
+  lcd_hazirla();
+}
+
+void loop() {
+  int motorButton = digitalRead(motorButtonPin);
+  int seatBelt = digitalRead(seatBeltButtonPin);
+  int potDeger = analogRead(potPin);
+  int yakitYuzde = map(potDeger, 0, 1023, 0, 100);
+  int doorState = digitalRead(doorSwitchPin);
+  int ldrDeger = analogRead(ldrPin);
+  int tempRaw = analogRead(tempPin);
+  float voltage = (tempRaw / 1023.0) * 5.0;
+  float sicaklik = voltage * 100.0;
+
+  if (millis() - lcdTimer > lcdShowTime) {
+    lcdSatir1 = "";
+    lcdSatir2 = "";
+    lcd.clear();
+  }
+
+  // FAR kontrolü (gözükmesi sağlandı)
+  if (ldrDeger <= 921) {
+    farDurumu = true;
+  } else {
+    farDurumu = false;
+  }
+
+  if (farDurumu != oncekiFarDurumu) {
+    if (farDurumu) {
+      digitalWrite(farLedPin, HIGH);
+      guncelleLCD("Farlar Acik", "", 3000);
+    } else {
+      digitalWrite(farLedPin, LOW);
+      guncelleLCD("Farlar Kapandi", "", 3000);
+    }
+    oncekiFarDurumu = farDurumu;
+  }
+
+  // Kapı kontrolü
+  if (doorState == LOW) {
+    digitalWrite(rgbRedPin, HIGH);
+    digitalWrite(rgbBluePin, HIGH);
+    motorDurumu = false;
+    digitalWrite(motorLedPin, LOW);
+    digitalWrite(dcMotorPin, LOW);
+    guncelleLCD("Uyari: Kapi Acik", "Motor Calismaz", 5000);
+    return;
+  } else {
+    digitalWrite(rgbRedPin, LOW);
+    digitalWrite(rgbBluePin, LOW);
+  }
+
+  // Emniyet kemeri kontrolü
+  if (seatBelt == HIGH) {
+    digitalWrite(redLedPin, HIGH);
+    digitalWrite(buzzerPin, HIGH);
+    motorDurumu = false;  // Kemer yoksa motor durur
+    digitalWrite(motorLedPin, LOW);
+    digitalWrite(dcMotorPin, LOW);
+    guncelleLCD("Kemer Takili Degil!", "", 5000);
+    return;
+  } else {
+    digitalWrite(redLedPin, LOW);
+    digitalWrite(buzzerPin, LOW);
+  }
+
+  // Motor kontrolü (sadece kapı kapalı ve kemer takılıyken)
+  if (motorButton == LOW) {
+    motorDurumu = true;
+    guncelleLCD("Motor Calisiyor", "", 3000);
+  } else {
+    motorDurumu = false;
+    guncelleLCD("Motor Durdu", "", 3000);
+  }
+
+  digitalWrite(motorLedPin, motorDurumu);
+  digitalWrite(dcMotorPin, motorDurumu);
+
+  // Sıcaklık kontrolü
+  if (sicaklik >= 25.0) {
+    digitalWrite(fanMotorPin, HIGH);
+    guncelleLCD("Sicaklik: " + String((int)sicaklik) + (char)223 + "C", "Klima Acildi", 3000);
+  } else {
+    digitalWrite(fanMotorPin, LOW);
+    guncelleLCD("Sicaklik: " + String((int)sicaklik) + (char)223 + "C", "Klima Kapandi", 3000);
+  }
+
+  // Yakıt kontrolü
+  if (yakitYuzde == 0) {
+    motorDurumu = false;
+    digitalWrite(motorLedPin, LOW);
+    digitalWrite(dcMotorPin, LOW);
+    guncelleLCD("Yakit Bitti", "Motor Durdu", 5000);
+    digitalWrite(fuelLedPin, LOW);
+    digitalWrite(redLedPin, LOW);
+    digitalWrite(buzzerPin, HIGH);
+    return;
+  }
+
+  lcd.setCursor(0, 1);
+  lcd.print("Yakit: ");
+  lcd.print(yakitYuzde);
+  lcd.print("%   ");
+
+  if (yakitYuzde <= 5) {
+    lcd.setCursor(0, 0);
+    lcd.print("Kritik: Yakit Az ");
+    digitalWrite(fuelLedPin, millis() / 300 % 2);
+  } else if (yakitYuzde <= 10) {
+    lcd.setCursor(0, 0);
+    lcd.print("Uyari: Yakit Az  ");
+    digitalWrite(fuelLedPin, HIGH);
+  } else {
+    digitalWrite(fuelLedPin, LOW);
+  }
+}
