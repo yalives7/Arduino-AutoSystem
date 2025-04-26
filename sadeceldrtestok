@@ -1,0 +1,53 @@
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C lcd(0x3F, 16, 2);
+
+// Pin tanımları
+const int ldrPin = A1;        // PF1/ADC1
+const int farLedPin = A14;    // PK6/ADC14 (Mavi LED)
+
+bool farDurumu = false;        // Far açık mı kapalı mı
+bool oncekiFarDurumu = false;  // Önceki far durumu
+
+void setup() {
+  Serial.begin(9600);
+  lcd.init();
+  lcd.backlight();
+  pinMode(farLedPin, OUTPUT);
+}
+
+void loop() {
+  int ldrDeger = analogRead(ldrPin); // A1 pininden okuma yap
+
+  Serial.print("LDR Degeri: ");
+  Serial.println(ldrDeger);
+
+  // DÜZELTİLMİŞ FAR MANTIĞI
+  if (ldrDeger <= 921) { // Ortam karanlık (düşük voltaj)
+    farDurumu = true;
+  } else {
+    farDurumu = false;
+  }
+
+  // Eğer far durumunda değişiklik varsa LCD ve LED güncelle
+  if (farDurumu != oncekiFarDurumu) {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("LDR: ");
+    lcd.print(ldrDeger);
+
+    lcd.setCursor(0, 1);
+    if (farDurumu) {
+      lcd.print("Farlar Acik");
+      digitalWrite(farLedPin, HIGH);
+    } else {
+      lcd.print("Farlar Kapandi");
+      digitalWrite(farLedPin, LOW);
+    }
+
+    oncekiFarDurumu = farDurumu; // Değişikliği kaydet
+  }
+
+  delay(100); // Daha hızlı tepki
+}
