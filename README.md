@@ -51,6 +51,7 @@ Kütüphane başarıyla eklendiyse:
 Proteus içinde “Pick Devices” ekranından Arduino Mega 2560 yaz → yeni model görünür.
 Devreye ekleyip kullanabilirsin.
 
+
 🔩 Ardunio 2560 V2 Kullanılan Devre Elemanları
 
  Giriş (Input) Bileşenleri
@@ -69,7 +70,15 @@ Devreye ekleyip kullanabilirsin.
  RGB LED (Pembe) - Kapı açık uyarısı 
  Buzzer - Sesli uyarı 
  DC Motor - Motor & klima simülasyonu 
- 
+
+ 🔄 Projenin Devamında
+
+Kurulumlar tamamlandıktan sonra:
+Arduino IDE üzerinden gerekli kodlar yazılır.(Ardunio klasöründeki mai.ino da kaynak kodları bulabilirisin)
+Yazılan kod Proteus içinde HEX dosyası olarak kullanılır.
+Devre şeması Proteus'ta hazırlanır.
+
+Simülasyon çalıştırılarak test yapılır.
 🧪 Simülasyon ve Test Senaryoları
 Projenin test edilmesi için aşağıdaki senaryolar uygulanabilir:
 Kapı Açık durumunda, kapı switch'i LOW konumuna geçtiğinde RGB LED yanar ve motor devre dışı bırakılır.
