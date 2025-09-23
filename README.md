@@ -6,15 +6,15 @@ Bu proje, Arduino Mega 2560 ve Proteus simülasyon ortamı kullanılarak oluştu
  🧠 Odak Noktası: Gömülü Sistem Tasarımı, Arduino Programlama, Simülasyon  
  🧪 Simülasyon Ortamı: Proteus  
  🧱 Kodlama Dili: Arduino C++
-
+ 🧭 Teslim Tarihim : 27.04.2025
 
 🧭 Projenin Kazanımları
 
 - Mikrodenetleyici (Arduino Mega) ile sensör okuma ve karar mekanizması geliştirme
 - Gerçek zamanlı LCD ekran güncelleme
-- Giriş ve çıkış birimleriyle olay-tabanlı sistem kurma (event-driven system)
+- Giriş ve çıkış birimleriyle olay-tabanlı sistem kurma 
 - Proteus ortamında sistem modelleme ve test etme
-- Modüler yazılım mimarisi tasarlama (fonksiyon bazlı ayrım)
+- Modüler yazılım mimarisi tasarlama 
 
 Bu proje, gerçek hayatta bir otomobilde bulunabilecek temel sistemleri anlamayı ve uygulamayı amaçlar:  
 Kemer kontrolü, kapı durumu, farlar, sıcaklık-temelli klima, yakıt seviyesi gibi özellikler yazılım tabanlı şekilde kontrol edilmiştir.
@@ -42,7 +42,7 @@ Eğer farklı bir klasöre kurduysan, Proteus klasörünün içindeki LIBRARY kl
 📥 4. Kurulum Adımları:
 Verdiğim .LIB ve .IDX dosyalarını kopyala.
 Yukarıdaki LIBRARY klasörünü aç.
-Dosyaları buraya yapıştır (yönetici izni gerekebilir).
+Dosyaları buraya yapıştır (Dikkat ,yönetici izni gerekebilir !).
 Proteus'u aç → Component Mode (P tuşu) → Arduino Mega 2560'u arat.
 Yeni Arduino modeli listede görünmeli.
 
@@ -72,7 +72,6 @@ Devreye ekleyip kullanabilirsin.
  DC Motor - Motor & klima simülasyonu 
 
  🔄 Projenin Devamında
-
 Kurulumlar tamamlandıktan sonra:
 Arduino IDE üzerinden gerekli kodlar yazılır.(Ardunio klasöründeki mai.ino da kaynak kodları bulabilirisin)
 Yazılan kod Proteus içinde HEX dosyası olarak kullanılır.
@@ -89,6 +88,7 @@ Yakıt seviyesi %10'un altına düştüğünde, potansiyometre verisine göre sa
 Yakıt %5’in altına düştüğünde, sarı LED yanıp sönmeye başlar.
 Yakıt tamamen bittiğinde (potansiyometre değeri 0), motor durdurulur ve LCD'de "Yakıt Bitti" mesajı gösterilir.
 
+Hey , sen! Eğer benim projemi test etmek istiyorsan , .pdsprj ve .ino dosyalarımı bulabilirsin :)
 
 <img width="571" height="340" alt="image" src="https://github.com/user-attachments/assets/dfcd8264-e4ef-4c02-a378-7f239c76e898" />
 
