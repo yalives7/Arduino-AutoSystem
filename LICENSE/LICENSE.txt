@@ -1,0 +1,9 @@
+MIT Lisansı
+
+Telif Hakkı (c) 2025  SEVİLAY ÜNGÖR
+
+Bu yazılım ve ilgili dokümantasyon dosyalarının ("Yazılım") bir kopyasını ücretsiz olarak edinmiş olan herkese, yazılımı sınırlama olmaksızın kullanma, kopyalama, değiştirme, birleştirme, yayınlama, dağıtma, alt lisanslama ve/veya satma hakkı verilmiştir ve Yazılım, kendisine verilen bu hakları kullanan kişilere sağlanır, aşağıdaki şartlara bağlı olarak:
+
+Yukarıdaki telif hakkı bildirimi ve bu izin bildirimi, Yazılımın tüm kopyalarına veya önemli kısımlarına dahil edilmelidir.
+
+YAZILIM "OLDUĞU GİBİ" SAĞLANMAKTADIR, AÇIK VEYA ZIMNİ HİÇBİR GARANTİSİ YOKTUR, TİCARİ ELVERİŞLİLİK, BELİRLİ BİR AMACA UYGUNLUK VE İHLAL ETMEME GARANTİLERİ DAHİL AMA BUNLARLA SINIRLI DEĞİL. YAZILIMIN KULLANIMI YA DA DİĞER İŞLEMLERİNDEN DOĞAN VEYA BUNLARLA İLGİLİ HERHANGİ BİR TALEP, ZARAR VEYA DİĞER SORUMLULUKLARDA YAZARLAR VEYA TELİF HAKKI SAHİPLERİ SORUMLU TUTULAMAZ.

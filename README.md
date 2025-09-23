@@ -22,9 +22,10 @@ Kemer kontrolü, kapı durumu, farlar, sıcaklık-temelli klima, yakıt seviyesi
 
 🔧 Proteus - Ardunio Kütüphanesi Ekleme Talimatı
 
+
 📁 1. Proteus'u Kurma
-Proteus klasörünü incele 
-(zip sifresi klasörde mevcuttur)
+Proteus yazılımının resmi web sitesine gidin: https://www.labcenter.com/
+Ücretsiz deneme sürümünü veya satın alma seçeneklerini inceleyin.
 
 📁 2. Arduino Kütüphane Dosyaları
 Ardunio Kartını Eklemen için Gerekli( Ardunio 2560 V2.0)
