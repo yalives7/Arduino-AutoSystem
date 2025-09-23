@@ -105,8 +105,10 @@ Devreye ekleyip kullanabilirsiniz.
 
 ## 📄 Akademik Bağlam ve Detaylı Rapor
 
-Bu proje, Bilgisayar Mühendisliği – Prolab II dersi kapsamında geliştirilmiştir.
-📁 docs/prolab2.proje pdfe bak
+Bu proje, Bilgisayar Mühendisliği – Prolab II dersi kapsamında geliştirilmiştir:
+
+📁 docs/Prolab II - 2. Proje.pdf 
+
 Proje; sistem tasarımı, sensör entegrasyonu, karar mekanizmaları, simülasyon testleri ve modüler yazılım geliştirme gibi becerileri geliştirmek amacıyla hazırlanmıştır.
 
 📘 Detaylı teknik bilgiler, algoritmalar, karar tabloları, test senaryoları ve gelişim süreci gibi tüm içerikler aşağıdaki dökümanda yer almaktadır:
