@@ -7,7 +7,7 @@ Sensör verilerini okuyarak karar mekanizmalarıyla çeşitli güvenlik önlemle
 
 ## 📚 Proje Bilgileri
 
-- **Eğitim Seviyesi:** Lisans – Bilgisayar Mühendisliği (Programlama Lab II)  
+- **Eğitim Seviyesi:** Lisans – Bilgisayar Mühendisliği Öğrencisi 2.sınıf
 - **Odak Noktası:** Gömülü Sistem Tasarımı, Arduino Programlama, Simülasyon  
 - **Simülasyon Ortamı:** Proteus  
 - **Kodlama Dili:** Arduino C++  
@@ -100,6 +100,19 @@ Devreye ekleyip kullanabilirsiniz.
 - **Düşük Yakıt:** %10'un altına düştüğünde sarı LED yanar, LCD yakıt uyarısı gösterir.  
 - **Çok Düşük Yakıt:** %5’in altına düştüğünde sarı LED yanıp sönmeye başlar.  
 - **Yakıt Bitti:** Potansiyometre değeri 0 ise motor durdurulur, LCD'de "Yakıt Bitti" mesajı gösterilir.
+
+---
+
+## 📄 Akademik Bağlam ve Detaylı Rapor
+
+Bu proje, Bilgisayar Mühendisliği – Prolab II dersi kapsamında geliştirilmiştir.
+📁 docs/prolab2.proje pdfe bak
+Proje; sistem tasarımı, sensör entegrasyonu, karar mekanizmaları, simülasyon testleri ve modüler yazılım geliştirme gibi becerileri geliştirmek amacıyla hazırlanmıştır.
+
+📘 Detaylı teknik bilgiler, algoritmalar, karar tabloları, test senaryoları ve gelişim süreci gibi tüm içerikler aşağıdaki dökümanda yer almaktadır:
+📁 docs/report.pdf — Geliştirme sürecine ve teknik detaylara kapsamlı bir bakış
+
+Bu rapor, projenin nasıl planlandığını, hangi ihtiyaçlara cevap verdiğini ve nasıl geliştirildiğini görmek isteyenler için rehber niteliğindedir.
 
 ---
 
